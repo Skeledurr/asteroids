@@ -67,8 +67,6 @@ public class GameController : MonoBehaviour
     {
         if (_currentRoutine != null) return;
         
-        // TODO active routine check.
-        // Round Complete.
         _currentRoutine = StartCoroutine(EndRoundProcess());
     }
 
@@ -117,16 +115,15 @@ public class GameController : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
 
-        if (_gameSession.PlayerLives > 0)
+        if (_gameSession.IsGameOver)
         {
-            yield return StartRoundProcess();
-        }
-        else
-        {
-            // Game Over
             Debug.Log("Game Over. Press Enter to Start Again.");
             
             _controls.UI.Enable();
+        }
+        else
+        {
+            yield return StartRoundProcess();
         }
 
         _currentRoutine = null;
@@ -143,7 +140,6 @@ public class GameController : MonoBehaviour
         
         _gameSession = new GameSession(_gameConfig.StartingRound, _gameConfig.StartingPlayerLives);
         
-        // TODO active routine check.
         _currentRoutine = StartCoroutine(StartRoundProcess());
     }
 

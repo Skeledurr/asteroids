@@ -77,8 +77,7 @@ public class ShipController : MonoBehaviour
 
     private void Shoot()
     {
-        // TODO Object pool.
-        GameObject bullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
+        GameController.ObjectPool.Spawn(PoolMemberType.Bullet, _firePoint.position, _firePoint.rotation);
     }
 
     #endregion

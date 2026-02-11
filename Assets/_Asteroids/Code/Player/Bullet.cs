@@ -9,6 +9,7 @@ public class Bullet : PoolMember
     [SerializeField] private float _duration = 1f;
     
     private Rigidbody _rigidbody;
+    private float _curDuration;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class Bullet : PoolMember
     private void OnEnable()
     {
         _rigidbody.linearVelocity = this.transform.up * _speed;
+        _curDuration = _duration;
     }
 
     private void Update()
@@ -27,9 +29,9 @@ public class Bullet : PoolMember
 
     private void DurationUpdate()
     {
-        _duration -= Time.deltaTime;
+        _curDuration -= Time.deltaTime;
 
-        if (_duration <= 0)
+        if (_curDuration <= 0)
         {
             DestroyBullet();
         }
@@ -37,8 +39,7 @@ public class Bullet : PoolMember
 
     private void DestroyBullet()
     {
-        // TODO Object Pool
-        Destroy(this.gameObject);
+        ReturnToPool();
     }
     
     private void OnTriggerEnter(Collider other)
