@@ -12,5 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8148a9a97f0478b807cc9b7add15dd7, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
-  CameraBoundsOffset: 1
-  InitialAsteroidsCount: 10
+  _cameraBoundsOffset: 1
+  _startingRound: 1
+  _gameRoundsConfig:
+    _manualRoundConfigs:
+    - {fileID: 11400000, guid: 7772a1b08dfad4b599881e0c72533dd4, type: 2}
+    _proceduralRoundsGenerator:
+      _asteroidCountRange: {x: 10, y: 40}
+      _asteroidSpeedMultiplierRange: {x: 1, y: 3}
+      _difficultyCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 0.5830233
+          value: 0.7757144
+          inSlope: 0.5873671
+          outSlope: 0.5873671
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.19109142
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _maxRoundsBeforeCapping: 50

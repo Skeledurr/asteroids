@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameController
   _gameConfig: {fileID: 11400000, guid: ec73d213ddddc41f08f0285e33beccfa, type: 2}
-  _asteroidSpawner: {fileID: 884219884825056402}
+  _asteroidManager: {fileID: 884219884825056402}
 --- !u!1001 &8959933032276611495
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4716795655022553388, guid: d4d750802faaf4c15ae663594e2237c5, type: 3}
       propertyPath: m_Name
-      value: AsteroidSpawner
+      value: AsteroidManager
       objectReference: {fileID: 0}
     - target: {fileID: 4795691347068013851, guid: d4d750802faaf4c15ae663594e2237c5, type: 3}
       propertyPath: m_LocalPosition.x

@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a2f8743087547249617f09b4e8d62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Asteroid
-  _speedRange: {x: 1, y: 5}
-  _rotationRange: {x: -2, y: 2}
+  _baseSpeed: 1
+  _speedRngRange: 1
+  _rotationRngRange: 5
   _rigidbody: {fileID: 3592070855014892721}
 --- !u!33 &3220586898542161995
 MeshFilter:
