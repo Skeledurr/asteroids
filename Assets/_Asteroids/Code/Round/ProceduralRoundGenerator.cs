@@ -1,41 +1,79 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class ProceduralRoundGenerator
 {
-    [Header("Ranges")]
-    [SerializeField] private Vector2Int _asteroidCountRange = new Vector2Int(10, 40);
-    [SerializeField] private Vector2 _asteroidSpeedMultiplierRange = new Vector2(1f, 3f);
+    [Header("Weights")]
+    [SerializeField] private AsteroidTypeWeighted[] _weightedAsteroids;
     
-    [Header("Difficulty Curve")]
-    // The curve which values will increase by
-    [SerializeField] private AnimationCurve _difficultyCurve = AnimationCurve.Linear(0, 0, 1, 1); // optional
+    [Header("Ranges")]
+    [SerializeField] private AnimationCurve _asteroidCountRange = AnimationCurve.Linear(0, 10, 1, 40);
+    [SerializeField] private AnimationCurve _asteroidSpeedMultiplierRange = AnimationCurve.Linear(0, 1f, 1, 3f);
+    
+    [Header("Difficulty Cap")]
     // The max amount of rounds before we start capping numbers.
     [SerializeField] private int _maxRoundsBeforeCapping = 50;
 
     public RoundSettings GenerateNextRound(int curRound)
     {
         float percent = Mathf.Clamp01((float)curRound / _maxRoundsBeforeCapping);
-        float curveMultiplier = _difficultyCurve.Evaluate(percent);
-        int round = Mathf.Clamp(curRound, curRound, _maxRoundsBeforeCapping);
 
-        int spawnCount = GetRangeValue(curveMultiplier, _asteroidCountRange);
-        float speedMultiplier = GetRangeValue(curveMultiplier, _asteroidSpeedMultiplierRange);
+        int spawnCount = Mathf.FloorToInt(_asteroidCountRange.Evaluate(percent));
+        float speedMultiplier = _asteroidSpeedMultiplierRange.Evaluate(percent);
 
-        //Debug.Log($"Generating New Round ({curRound}) - round(clamped): {round}, percent: {percent}, curve: {curveMultiplier}, spawnCount: {spawnCount}, speedMultiplier: {speedMultiplier}");
-        
         RoundSettings newRound = new RoundSettings();
         newRound.BaseSpeedMultiplier = speedMultiplier;
-        newRound.AsteroidsToSpawn = new RoundSettings.SpawnSetting[]
-        {
-            new RoundSettings.SpawnSetting()
-            {
-                AsteroidType = AsteroidType.Size3_Default,
-                Count = spawnCount,
-            }
-        };
+        newRound.AsteroidsToSpawn = GetWeightedSpawnSettings(percent, spawnCount, _weightedAsteroids);
 
         return newRound;
+    }
+
+    private RoundSettings.SpawnSetting[] GetWeightedSpawnSettings(float percent, int spawnCount, AsteroidTypeWeighted[] weightedAsteroids)
+    {
+        // Calculate weights for current round
+        float totalWeight = 0f;
+        foreach (AsteroidTypeWeighted weight in weightedAsteroids)
+        {
+            totalWeight += weight.WeightOverRounds.Evaluate(percent);
+        }
+
+        // Build a dictionary of all the asteroids to spawn.
+        Dictionary<AsteroidType, int> asteroidCount = new();
+        
+        for (int i = 0; i < spawnCount; i++)
+        {
+            float roll = Random.value * totalWeight;
+            float cumulative = 0f;
+
+            foreach (AsteroidTypeWeighted weight in _weightedAsteroids)
+            {
+                cumulative += weight.WeightOverRounds.Evaluate(percent);
+                if (roll <= cumulative)
+                {
+                    if (!asteroidCount.ContainsKey(weight.Type))
+                    {
+                        asteroidCount[weight.Type] = 0;
+                    }
+
+                    asteroidCount[weight.Type]++;
+                }
+            }
+        }
+
+        // Build the spawn settings based on the dictionary.
+        List<RoundSettings.SpawnSetting> settings = new List<RoundSettings.SpawnSetting>();
+
+        foreach (var kvp in asteroidCount)
+        {
+            settings.Add(new RoundSettings.SpawnSetting()
+            {
+                AsteroidType = kvp.Key,
+                Count = kvp.Value
+            });
+        }
+
+        return settings.ToArray();
     }
 
     private int GetRangeValue(float percent, Vector2Int range)

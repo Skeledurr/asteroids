@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0419fb635bfd4f1e8de6786e9f5e6d63, type: 3}
-  m_Name: RoundConfig_01
+  m_Name: RoundConfig_02
   m_EditorClassIdentifier: Assembly-CSharp::RoundConfig
   Settings:
     BaseSpeedMultiplier: 1
     AsteroidsToSpawn:
     - AsteroidType: 0
-      Count: 1
-    - AsteroidType: 2
       Count: 2
+    - AsteroidType: 1
+      Count: 1

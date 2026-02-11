@@ -12,43 +12,153 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8148a9a97f0478b807cc9b7add15dd7, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
-  _cameraBoundsOffset: 1
+  _cameraBoundsOffset: 0.7
   _startingRound: 1
+  _startingPlayerLives: 3
   _gameRoundsConfig:
     _manualRoundConfigs:
     - {fileID: 11400000, guid: 7772a1b08dfad4b599881e0c72533dd4, type: 2}
+    - {fileID: 11400000, guid: 170947ed56d6d4797aa83f69d3550ab0, type: 2}
+    - {fileID: 11400000, guid: 9d0c8e62866214e408b0bc64f88c75db, type: 2}
     _proceduralRoundsGenerator:
-      _asteroidCountRange: {x: 10, y: 40}
-      _asteroidSpeedMultiplierRange: {x: 1, y: 3}
-      _difficultyCurve:
+      _weightedAsteroids:
+      - Type: 0
+        WeightOverRounds:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0.1
+            inSlope: 0.9
+            outSlope: 0.9
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0.9
+            outSlope: 0.9
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      - Type: 1
+        WeightOverRounds:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0.3
+            inSlope: 0.39509538
+            outSlope: 0.39509538
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.50620687
+            value: 0.5
+            inSlope: -0.30873722
+            outSlope: -0.30873722
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -1.0125698
+            outSlope: -1.0125698
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      - Type: 2
+        WeightOverRounds:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: -2.2466233
+            outSlope: -2.2466233
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.34660468
+            value: 0.22130992
+            inSlope: -1.2926654
+            outSlope: -1.2926654
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -0.33870754
+            outSlope: -0.33870754
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      _asteroidCountRange:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
+          value: 10
+          inSlope: 30
+          outSlope: 30
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.5830233
-          value: 0.7757144
-          inSlope: 0.5873671
-          outSlope: 0.5873671
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.19109142
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
+          value: 40
+          inSlope: 30
+          outSlope: 30
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _asteroidSpeedMultiplierRange:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
           value: 1
-          inSlope: 1
-          outSlope: 1
-          tangentMode: 0
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 3
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
