@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class CameraBounds
 {
+    public CameraBounds()
+    {
+        
+    }
+    
     public CameraBounds(Camera cam, float boundsOffset)
     {
         if (!cam.orthographic)

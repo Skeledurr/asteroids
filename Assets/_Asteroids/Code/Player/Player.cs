@@ -14,6 +14,12 @@ public class Player : MonoBehaviour
     {
         _shipController.enabled = active;
     }
+
+    public void ResetPlayer()
+    {
+        GameController.ObjectPool.ReturnAllOfType(PoolMemberType.Bullet);
+        SetControlsActive(false);
+    }
     
     private void OnTriggerEnter(Collider other)
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(WrapPosition))]
-public class Bullet : MonoBehaviour
+public class Bullet : PoolMember
 {
     [Header("Values")]
     [SerializeField] private float _speed = 15f;

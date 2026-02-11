@@ -33,9 +33,10 @@ public class AsteroidManager : MonoBehaviour
 
     private void SpawnAsteroid(AsteroidType asteroidType, float baseSpeedMultiplier)
     {
-        // TODO use object pool with type.
-        
-        Asteroid asteroid = Instantiate(_prefab, _bounds.GetRandomBoundsPosition(), Quaternion.identity);
+        Asteroid asteroid = GameController.ObjectPool.Spawn<Asteroid>(
+                                PoolMemberType.Asteroid_Size3, 
+                            _bounds.GetRandomBoundsPosition(),
+                                Quaternion.identity);
 
         asteroid.transform.name = $"{asteroidType} - id; {_asteroidCount}";
         asteroid.transform.SetParent(this.transform);
@@ -48,8 +49,7 @@ public class AsteroidManager : MonoBehaviour
 
     public void OnAsteroidDestroyed(Asteroid asteroid)
     {
-        // TODO use object pool.
-        Destroy(asteroid.gameObject);
+        GameController.ObjectPool.Return(asteroid);
         
         _asteroidDestroyedCount++;
 
@@ -61,17 +61,7 @@ public class AsteroidManager : MonoBehaviour
 
     private void ResetAsteroids()
     {
-        // TODO destroy without notifying _activeAsteroids
-        
-        
-        // TODO Clear out all active asteroids via Object pool.
-        for (int i = 0; i < _activeAsteroids.Count; i++)
-        {
-            if (_activeAsteroids[i] == null) continue;
-            // TODO inform the asteroid to destroy (do not notify, do not create children)
-            // Asteroid or manager handles object pool.
-            Destroy(_activeAsteroids[i].gameObject);
-        }
+        GameController.ObjectPool.ReturnAllOfType(PoolMemberType.Asteroid);
 
         _activeAsteroids.Clear();
         _asteroidCount = 0;

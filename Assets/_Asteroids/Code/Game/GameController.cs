@@ -6,7 +6,8 @@ public class GameController : MonoBehaviour
     #region Public Static
     
     public static CameraBounds CameraBounds => _cameraBounds;
-    
+    public static ObjectPool ObjectPool { get; private set; }
+
     #endregion
     
     #region Serialized Fields
@@ -17,12 +18,13 @@ public class GameController : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Player _player;
     [SerializeField] private AsteroidManager _asteroidManager;
+    [SerializeField] private ObjectPool _objectPool;
     
     #endregion
 
     #region Private Fields
 
-    private static CameraBounds _cameraBounds;
+    private static CameraBounds _cameraBounds = new ();
     private GameSession _gameSession;
 
     #endregion
@@ -31,6 +33,7 @@ public class GameController : MonoBehaviour
     
     private void Awake()
     {
+        ObjectPool = _objectPool;
         _cameraBounds = new CameraBounds(Camera.main, _gameConfig.CameraBoundsOffset);
         _asteroidManager.Initialise(this, _cameraBounds);
         _gameSession = new GameSession(_gameConfig.StartingRound, _gameConfig.StartingPlayerLives);
@@ -68,7 +71,7 @@ public class GameController : MonoBehaviour
 
     private IEnumerator StartNexstRoundProcess()
     {
-        _player.SetControlsActive(false);
+        _player.ResetPlayer();
         
         _asteroidManager.SpawnRoundAsteroids(_gameConfig.GetRoundSettings(_gameSession.Round));
 

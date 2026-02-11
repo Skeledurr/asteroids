@@ -2,13 +2,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(WrapPosition))]
-public class Asteroid : MonoBehaviour
+public class Asteroid : PoolMember
 {
     [Header("Values")] 
     [SerializeField] private float _baseSpeed;
     [SerializeField] private float _speedRngRange;
     [SerializeField] private float _rotationRngRange;
-    
+
     private Rigidbody _rigidbody;
     private AsteroidManager _manager;
     private float _baseSpeedMultiplier = 1f;
