@@ -1,12 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
     #region Public Static
     
-    public static CameraBounds CameraBounds => _cameraBounds;
+    public static GameBounds GameBounds => _gameBounds;
     public static ObjectPool ObjectPool { get; private set; }
+    public static GameSession GameSession => _gameSession;
 
     #endregion
     
@@ -24,8 +26,10 @@ public class GameController : MonoBehaviour
 
     #region Private Fields
 
-    private static CameraBounds _cameraBounds = new ();
-    private GameSession _gameSession;
+    private static GameBounds _gameBounds = new ();
+    private static GameSession _gameSession;
+    private PlayerControls _controls;
+    private Coroutine _currentRoutine = null;
 
     #endregion
     
@@ -34,9 +38,13 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         ObjectPool = _objectPool;
-        _cameraBounds = new CameraBounds(Camera.main, _gameConfig.CameraBoundsOffset);
-        _asteroidManager.Initialise(this, _cameraBounds);
+        _gameBounds = new GameBounds(Camera.main, _gameConfig.CameraBoundsOffset);
+        _asteroidManager.Initialise(this, _gameBounds);
         _gameSession = new GameSession(_gameConfig.StartingRound, _gameConfig.StartingPlayerLives);
+        _player.Initialise(this);
+        _controls = new PlayerControls();
+        _controls.UI.Submit.performed += OnStartNewGame;
+        _controls.UI.Disable();
     }
 
     private void Start()
@@ -50,27 +58,34 @@ public class GameController : MonoBehaviour
     
     private void OnStartNextRound()
     {
-        StartCoroutine(StartNexstRoundProcess());
+        if (_currentRoutine != null) return;
+        
+        _currentRoutine = StartCoroutine(StartRoundProcess());
     }
 
     public void OnAllAsteroidsDestroyed()
     {
+        if (_currentRoutine != null) return;
+        
+        // TODO active routine check.
         // Round Complete.
-        StartCoroutine(EndRoundProcess());
+        _currentRoutine = StartCoroutine(EndRoundProcess());
     }
 
     public void OnPlayerDied()
     {
-        // Check lives
-        // Respawn?
+        if (_currentRoutine != null) return;
+        
+        _currentRoutine = StartCoroutine(PlayerDeathProcess());
     }
     
     #endregion
 
     #region Game Routines
 
-    private IEnumerator StartNexstRoundProcess()
+    private IEnumerator StartRoundProcess()
     {
+        _player.gameObject.SetActive(true);
         _player.ResetPlayer();
         
         _asteroidManager.StartRound(_gameConfig.GetRoundSettings(_gameSession.Round));
@@ -78,16 +93,59 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         _player.SetControlsActive(true);
+
+        _currentRoutine = null;
     }
 
     private IEnumerator EndRoundProcess()
     {
         yield return new WaitForSeconds(1f);
         
-        _gameSession.Round++;
+        GameSession.NextRound();
 
-        yield return StartNexstRoundProcess();
+        yield return StartRoundProcess();
+
+        _currentRoutine = null;
     }
-    
+
+    private IEnumerator PlayerDeathProcess()
+    {
+        _player.ResetPlayer();
+        _player.gameObject.SetActive(false);
+        GameSession.LoseLife();
+        Debug.Log($"Lives Remaining: {_gameSession.PlayerLives}");
+        
+        yield return new WaitForSeconds(1f);
+
+        if (_gameSession.PlayerLives > 0)
+        {
+            yield return StartRoundProcess();
+        }
+        else
+        {
+            // Game Over
+            Debug.Log("Game Over. Press Enter to Start Again.");
+            
+            _controls.UI.Enable();
+        }
+
+        _currentRoutine = null;
+    }
+
+    private void OnStartNewGame(InputAction.CallbackContext obj)
+    {
+        if (_currentRoutine != null)
+        {
+            return;
+        }
+        
+        _controls.UI.Disable();
+        
+        _gameSession = new GameSession(_gameConfig.StartingRound, _gameConfig.StartingPlayerLives);
+        
+        // TODO active routine check.
+        _currentRoutine = StartCoroutine(StartRoundProcess());
+    }
+
     #endregion
 }

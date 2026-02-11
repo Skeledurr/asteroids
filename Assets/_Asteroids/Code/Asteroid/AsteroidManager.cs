@@ -5,12 +5,11 @@ public class AsteroidManager : MonoBehaviour
     [SerializeField] private AsteroidAtlas _atlas;
     
     private GameController _gameController;
-    private CameraBounds _bounds;
+    private GameBounds _bounds;
     private RoundSettings _curRoundSettings;
     private uint _asteroidCount = 0;
-    private uint _asteroidDestroyedCount = 0;
 
-    public void Initialise(GameController gameController, CameraBounds bounds)
+    public void Initialise(GameController gameController, GameBounds bounds)
     {
         _gameController = gameController;
         _bounds = bounds;
@@ -56,10 +55,9 @@ public class AsteroidManager : MonoBehaviour
     public void OnAsteroidDestroyed(Asteroid asteroid)
     {
         GameController.ObjectPool.Return(asteroid);
+        GameController.GameSession.OnAsteroidDestroyed(asteroid.PointValue);
         
-        _asteroidDestroyedCount++;
-
-        if (_asteroidDestroyedCount == _asteroidCount)
+        if (GameController.GameSession.AsteroidsDestroyedThisRound == _asteroidCount)
         {
             _gameController.OnAllAsteroidsDestroyed();
         }
@@ -70,6 +68,5 @@ public class AsteroidManager : MonoBehaviour
         GameController.ObjectPool.ReturnAllOfType(PoolMemberType.Asteroid);
 
         _asteroidCount = 0;
-        _asteroidDestroyedCount = 0;
     }
 }

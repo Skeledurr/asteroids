@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class CameraBounds
+public class GameBounds
 {
-    public CameraBounds()
+    public GameBounds()
     {
         
     }
     
-    public CameraBounds(Camera cam, float boundsOffset)
+    public GameBounds(Camera cam, float boundsOffset)
     {
         if (!cam.orthographic)
         {

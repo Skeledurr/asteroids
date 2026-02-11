@@ -14,7 +14,7 @@ public class WrapPosition : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (GameController.CameraBounds.WrapPosition(_rigidbody.position, out _wrappedPos))
+        if (GameController.GameBounds.WrapPosition(_rigidbody.position, out _wrappedPos))
         {
             _rigidbody.position = _wrappedPos;
         }

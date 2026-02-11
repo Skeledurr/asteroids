@@ -27,18 +27,28 @@ public class ShipController : MonoBehaviour
     private void OnEnable()
     {
         _controls.Player.Enable();
-        ResetMovement();
     }
 
     private void OnDisable()
     {
         _controls.Player.Disable();
-        ResetMovement();
     }
     
     private void FixedUpdate()
     {
         MoveUpdate();
+    }
+    
+    #endregion
+    
+    #region Public Methods
+    
+    public void ResetShip()
+    {
+        _moveInput = Vector2.zero;
+        _rigidbody.linearVelocity = Vector3.zero;
+        _rigidbody.position = Vector3.zero;
+        _rigidbody.rotation = Quaternion.identity;
     }
     
     #endregion
@@ -63,13 +73,6 @@ public class ShipController : MonoBehaviour
         _rigidbody.MoveRotation(_rigidbody.rotation * Quaternion.Euler(0f, 0f, -turn * _turnSpeed * Time.fixedDeltaTime));
 
         _rigidbody.linearVelocity += transform.up * (_moveInput.y * _thrustPower * Time.fixedDeltaTime);
-    }
-
-    private void ResetMovement()
-    {
-        _moveInput = Vector2.zero;
-        _rigidbody.linearVelocity = Vector3.zero;
-        _rigidbody.position = Vector3.zero;
     }
 
     private void Shoot()

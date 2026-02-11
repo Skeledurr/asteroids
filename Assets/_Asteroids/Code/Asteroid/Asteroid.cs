@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(WrapPosition))]
 public class Asteroid : PoolMember
 {
+    public int PointValue => _configData.PointValue;
+    
     private AsteroidConfigData _configData;
     private Rigidbody _rigidbody;
     private AsteroidManager _manager;
