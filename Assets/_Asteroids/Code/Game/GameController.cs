@@ -73,7 +73,7 @@ public class GameController : MonoBehaviour
     {
         _player.ResetPlayer();
         
-        _asteroidManager.SpawnRoundAsteroids(_gameConfig.GetRoundSettings(_gameSession.Round));
+        _asteroidManager.StartRound(_gameConfig.GetRoundSettings(_gameSession.Round));
 
         yield return new WaitForSeconds(1f);
         

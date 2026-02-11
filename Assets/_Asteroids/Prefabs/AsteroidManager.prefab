@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7a177c1ebb41618fe7c0c4adafb7b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidSpawner
-  _prefab: {fileID: 8403305202278887838, guid: 4516ca76d9f7d4c59bf24930d14c1094, type: 3}
+  _atlas: {fileID: 11400000, guid: d02523193d74b42d793a992c23a899f2, type: 2}

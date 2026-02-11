@@ -44,12 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a61528834e4b4e5c965ffe83cb060585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPool
-  testA: {fileID: 646276679760899894, guid: d3ea7fbdb8be04b7097ffa0bfaacf2ea, type: 3}
-  testB: {fileID: 9108043987583587211, guid: d3ea7fbdb8be04b7097ffa0bfaacf2ea, type: 3}
   _poolEntries:
+  - Type: 1
+    Prefab: {fileID: 646276679760899894, guid: d3ea7fbdb8be04b7097ffa0bfaacf2ea, type: 3}
+    InitialSize: 10
   - Type: 2
     Prefab: {fileID: 8403305202278887838, guid: 4516ca76d9f7d4c59bf24930d14c1094, type: 3}
     InitialSize: 10
-  - Type: 1
-    Prefab: {fileID: 646276679760899894, guid: d3ea7fbdb8be04b7097ffa0bfaacf2ea, type: 3}
+  - Type: 4
+    Prefab: {fileID: 8403305202278887838, guid: 1c06d2d09a43244fd9a426a5a25dee93, type: 3}
+    InitialSize: 10
+  - Type: 8
+    Prefab: {fileID: 8403305202278887838, guid: c2b46a967c7c044afbd3746ede5c28a6, type: 3}
     InitialSize: 10

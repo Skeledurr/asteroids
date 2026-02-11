@@ -4,11 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(WrapPosition))]
 public class Asteroid : PoolMember
 {
-    [Header("Values")] 
-    [SerializeField] private float _baseSpeed;
-    [SerializeField] private float _speedRngRange;
-    [SerializeField] private float _rotationRngRange;
-
+    private AsteroidConfigData _configData;
     private Rigidbody _rigidbody;
     private AsteroidManager _manager;
     private float _baseSpeedMultiplier = 1f;
@@ -18,9 +14,10 @@ public class Asteroid : PoolMember
         _rigidbody = this.GetComponent<Rigidbody>();
     }
 
-    public void Initialise(AsteroidManager manager, float baseSpeedMultiplier)
+    public void Initialise(AsteroidManager manager, AsteroidConfigData config, float baseSpeedMultiplier)
     {
         _manager = manager;
+        _configData = config;
         _baseSpeedMultiplier = baseSpeedMultiplier;
         SetRandomVelocity();
     }
@@ -29,20 +26,28 @@ public class Asteroid : PoolMember
     {
         // TODO determine damage.
         // TODO start VFX + animations.
-        // TODO Create Children
+        CreateChildren();
         _manager.OnAsteroidDestroyed(this);
+    }
+
+    private void CreateChildren()
+    {
+        for (int i = 0; i < _configData.SplitCount; i++)
+        {
+            _manager.SpawnAsteroid(_configData.SplitAsteroidType, _rigidbody.position);
+        }
     }
 
     private void SetRandomVelocity()
     {
         // Direction.
-        float speed = (_baseSpeed * _baseSpeedMultiplier) + Random.Range(0f, _speedRngRange);
+        float speed = (_configData.BaseSpeed * _baseSpeedMultiplier) + Random.Range(0f, _configData.SpeedRngRange);
         Vector2 dir = Random.insideUnitCircle.normalized;
         _rigidbody.linearVelocity = dir * speed;
         
         // Spin
-        _rigidbody.angularVelocity = new Vector3(Random.Range(-_rotationRngRange, _rotationRngRange),
-                                                Random.Range(-_rotationRngRange, _rotationRngRange),
-                                                Random.Range(-_rotationRngRange, _rotationRngRange));
+        _rigidbody.angularVelocity = new Vector3(Random.Range(-_configData.RotationRngRange, _configData.RotationRngRange),
+                                                Random.Range(-_configData.RotationRngRange, _configData.RotationRngRange),
+                                                Random.Range(-_configData.RotationRngRange, _configData.RotationRngRange));
     }
 }

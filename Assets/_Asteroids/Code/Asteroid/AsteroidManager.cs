@@ -1,16 +1,14 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidManager : MonoBehaviour
 {
-    [SerializeField] private Asteroid _prefab;
-
+    [SerializeField] private AsteroidAtlas _atlas;
+    
     private GameController _gameController;
     private CameraBounds _bounds;
-
+    private RoundSettings _curRoundSettings;
     private uint _asteroidCount = 0;
     private uint _asteroidDestroyedCount = 0;
-    private List<Asteroid> _activeAsteroids = new List<Asteroid>();
 
     public void Initialise(GameController gameController, CameraBounds bounds)
     {
@@ -18,32 +16,40 @@ public class AsteroidManager : MonoBehaviour
         _bounds = bounds;
     }
 
-    public void SpawnRoundAsteroids(RoundSettings roundSettings)
+    public void StartRound(RoundSettings roundSettings)
     {
+        _curRoundSettings = roundSettings;
+        
         ResetAsteroids();
         
-        foreach (RoundSettings.SpawnSetting settings in roundSettings.AsteroidsToSpawn)
+        foreach (RoundSettings.SpawnSetting settings in _curRoundSettings.AsteroidsToSpawn)
         {
             for (int i = 0; i < settings.Count; i++)
             {
-                SpawnAsteroid(settings.AsteroidType, settings.BaseSpeedMultiplier);    
+                SpawnAsteroid(settings.AsteroidType);    
             }
         }
     }
 
-    private void SpawnAsteroid(AsteroidType asteroidType, float baseSpeedMultiplier)
+    private void SpawnAsteroid(AsteroidType asteroidType)
     {
+        SpawnAsteroid(asteroidType, _bounds.GetRandomBoundsPosition());
+    }
+    
+    public void SpawnAsteroid(AsteroidType asteroidType, Vector3 position)
+    {
+        AsteroidConfigData config = _atlas.GetAsteroidConfig(asteroidType);
+        
         Asteroid asteroid = GameController.ObjectPool.Spawn<Asteroid>(
-                                PoolMemberType.Asteroid_Size3, 
-                            _bounds.GetRandomBoundsPosition(),
-                                Quaternion.identity);
+            config.PoolMemberType, 
+            position,
+            Quaternion.identity);
 
         asteroid.transform.name = $"{asteroidType} - id; {_asteroidCount}";
         asteroid.transform.SetParent(this.transform);
         
-        asteroid.Initialise(this, baseSpeedMultiplier);
+        asteroid.Initialise(this, config, _curRoundSettings.BaseSpeedMultiplier);
         
-        _activeAsteroids.Add(asteroid);
         _asteroidCount++;
     }
 
@@ -63,7 +69,6 @@ public class AsteroidManager : MonoBehaviour
     {
         GameController.ObjectPool.ReturnAllOfType(PoolMemberType.Asteroid);
 
-        _activeAsteroids.Clear();
         _asteroidCount = 0;
         _asteroidDestroyedCount = 0;
     }

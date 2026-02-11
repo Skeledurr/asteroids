@@ -22,16 +22,16 @@ public class ProceduralRoundGenerator
         int spawnCount = GetRangeValue(curveMultiplier, _asteroidCountRange);
         float speedMultiplier = GetRangeValue(curveMultiplier, _asteroidSpeedMultiplierRange);
 
-        Debug.Log($"Generating New Round ({curRound}) - round(clamped): {round}, percent: {percent}, curve: {curveMultiplier}, spawnCount: {spawnCount}, speedMultiplier: {speedMultiplier}");
+        //Debug.Log($"Generating New Round ({curRound}) - round(clamped): {round}, percent: {percent}, curve: {curveMultiplier}, spawnCount: {spawnCount}, speedMultiplier: {speedMultiplier}");
         
         RoundSettings newRound = new RoundSettings();
+        newRound.BaseSpeedMultiplier = speedMultiplier;
         newRound.AsteroidsToSpawn = new RoundSettings.SpawnSetting[]
         {
             new RoundSettings.SpawnSetting()
             {
                 AsteroidType = AsteroidType.Size3_Default,
                 Count = spawnCount,
-                BaseSpeedMultiplier = speedMultiplier
             }
         };
 
