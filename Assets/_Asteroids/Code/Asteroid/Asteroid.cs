@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(WrapPosition))]
 public class Asteroid : MonoBehaviour
 {
     [Header("Values")] 
@@ -7,31 +9,28 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float _speedRngRange;
     [SerializeField] private float _rotationRngRange;
     
-    [Header("Components")]
-    [SerializeField] private Rigidbody _rigidbody;
-
-    private CameraBounds _cameraBounds;
-    private Vector2 _wrappedPos;
+    private Rigidbody _rigidbody;
+    private AsteroidManager _manager;
     private float _baseSpeedMultiplier = 1f;
 
-    public void Initialise(CameraBounds cameraBounds, float baseSpeedMultiplier)
+    private void Awake()
     {
-        _cameraBounds = cameraBounds;
+        _rigidbody = this.GetComponent<Rigidbody>();
+    }
+
+    public void Initialise(AsteroidManager manager, float baseSpeedMultiplier)
+    {
+        _manager = manager;
         _baseSpeedMultiplier = baseSpeedMultiplier;
         SetRandomVelocity();
     }
 
-    private void LateUpdate()
+    public void OnBulletHit(Bullet bullet)
     {
-        BoundsCheck();
-    }
-
-    private void BoundsCheck()
-    {
-        if (_cameraBounds.WrapPosition(_rigidbody.position, out _wrappedPos))
-        {
-            _rigidbody.position = _wrappedPos;
-        }
+        // TODO determine damage.
+        // TODO start VFX + animations.
+        // TODO Create Children
+        _manager.OnAsteroidDestroyed(this);
     }
 
     private void SetRandomVelocity()

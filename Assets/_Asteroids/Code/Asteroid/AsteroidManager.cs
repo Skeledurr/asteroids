@@ -5,13 +5,16 @@ public class AsteroidManager : MonoBehaviour
 {
     [SerializeField] private Asteroid _prefab;
 
+    private GameController _gameController;
     private CameraBounds _bounds;
-    private RoundManager _roundManager;
 
+    private uint _asteroidCount = 0;
+    private uint _asteroidDestroyedCount = 0;
     private List<Asteroid> _activeAsteroids = new List<Asteroid>();
 
-    public void Initialise(CameraBounds bounds, RoundManager roundManager)
+    public void Initialise(GameController gameController, CameraBounds bounds)
     {
+        _gameController = gameController;
         _bounds = bounds;
     }
 
@@ -33,32 +36,45 @@ public class AsteroidManager : MonoBehaviour
         // TODO use object pool with type.
         
         Asteroid asteroid = Instantiate(_prefab, _bounds.GetRandomBoundsPosition(), Quaternion.identity);
-        
+
+        asteroid.transform.name = $"{asteroidType} - id; {_asteroidCount}";
         asteroid.transform.SetParent(this.transform);
         
-        asteroid.Initialise(_bounds, baseSpeedMultiplier);
+        asteroid.Initialise(this, baseSpeedMultiplier);
         
         _activeAsteroids.Add(asteroid);
+        _asteroidCount++;
     }
 
-    private void OnAsteroidDestroyed(Asteroid asteroid)
+    public void OnAsteroidDestroyed(Asteroid asteroid)
     {
-        // TODO Reduce count.
-        // TODO Unsubscribe from event.
-        // TODO Check if round complete.
+        // TODO use object pool.
+        Destroy(asteroid.gameObject);
+        
+        _asteroidDestroyedCount++;
+
+        if (_asteroidDestroyedCount == _asteroidCount)
+        {
+            _gameController.OnAllAsteroidsDestroyed();
+        }
     }
 
     private void ResetAsteroids()
     {
         // TODO destroy without notifying _activeAsteroids
         
+        
+        // TODO Clear out all active asteroids via Object pool.
         for (int i = 0; i < _activeAsteroids.Count; i++)
         {
+            if (_activeAsteroids[i] == null) continue;
             // TODO inform the asteroid to destroy (do not notify, do not create children)
             // Asteroid or manager handles object pool.
             Destroy(_activeAsteroids[i].gameObject);
         }
 
         _activeAsteroids.Clear();
+        _asteroidCount = 0;
+        _asteroidDestroyedCount = 0;
     }
 }

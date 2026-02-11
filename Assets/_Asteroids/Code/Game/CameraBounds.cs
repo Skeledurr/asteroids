@@ -18,10 +18,10 @@ public class CameraBounds
         _left = cam.transform.position.x - screenHalfWidth - boundsOffset;
     }
 
-    private float _top;
-    private float _bottom;
-    private float _right;
-    private float _left;
+    private float _top = 0f;
+    private float _bottom = 0f;
+    private float _right = 0f;
+    private float _left = 0f;
 
     public bool OutOfBounds(Vector2 position)
     {
