@@ -35,10 +35,10 @@ public class Asteroid : MonoBehaviour
 
     private void SetRandomVelocity()
     {
-        float speed = (_baseSpeed * _baseSpeedMultiplier) + Random.Range(-_speedRngRange, _speedRngRange);
-        
         // Direction.
-        _rigidbody.linearVelocity = Random.insideUnitCircle.normalized * speed;
+        float speed = (_baseSpeed * _baseSpeedMultiplier) + Random.Range(0f, _speedRngRange);
+        Vector2 dir = Random.insideUnitCircle.normalized;
+        _rigidbody.linearVelocity = dir * speed;
         
         // Spin
         _rigidbody.angularVelocity = new Vector3(Random.Range(-_rotationRngRange, _rotationRngRange),
