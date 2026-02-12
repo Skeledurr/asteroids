@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Astroid Atlas is a scriptable object that contains all the
+/// asteroid config data for the game. Config data can be fetched with AsteroidType.
+/// </summary>
 [CreateAssetMenu(fileName = "AsteroidAtlas", menuName = "Asteroids/Asteroid Atlas", order = 0)]
 public class AsteroidAtlas : ScriptableObject
 {

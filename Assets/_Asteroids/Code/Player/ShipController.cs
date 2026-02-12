@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Ship Controller uses the user's input to move and fire the ship.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(WrapPosition))]
 public class ShipController : MonoBehaviour

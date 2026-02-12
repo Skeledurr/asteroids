@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Player handles visuals and the controller for the user.
+/// Providing Public Methods for the RoundController to coordinate game play. 
+/// </summary>
 public class Player : MonoBehaviour
 {
     [SerializeField] private ShipController _shipController;

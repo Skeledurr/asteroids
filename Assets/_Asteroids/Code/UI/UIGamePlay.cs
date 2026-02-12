@@ -1,7 +1,10 @@
-using System;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// UI Game Play is a simple class that updates the Game Play UI
+/// when Game Session values have been updated.
+/// </summary>
 public class UIGamePlay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _livesText;

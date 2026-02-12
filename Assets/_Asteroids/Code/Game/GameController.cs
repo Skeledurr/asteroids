@@ -1,7 +1,10 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+/// <summary>
+/// Game Controller oversees the overall game lifecycle. Initialising core components,
+/// tracks the active session, and coordinates transitions between start,
+/// gameplay, round changes, and game over.
+/// </summary>
 public class GameController : MonoBehaviour
 {
     #region Public Static

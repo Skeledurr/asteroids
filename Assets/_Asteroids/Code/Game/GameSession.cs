@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Game Session is a class that holds all the data for the current game session.
+/// </summary>
 public class GameSession
 {
     public int Round { get; private set; }

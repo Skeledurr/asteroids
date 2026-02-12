@@ -1,6 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Object Pool is a standard pooling class with
+/// the goal of providing reusable game objects for the game
+/// and avoiding constantly destroying and instantiating new ones.
+/// </summary>
 public class ObjectPool : MonoBehaviour
 {
     [System.Serializable]
@@ -55,7 +60,7 @@ public class ObjectPool : MonoBehaviour
 
     private PoolEntry GetEntry(PoolMemberType type)
     {
-        foreach (var entry in _poolEntries)
+        foreach (PoolEntry entry in _poolEntries)
         {
             if (entry.Type == type)
             {
@@ -116,7 +121,7 @@ public class ObjectPool : MonoBehaviour
             // Check if this type is included in the mask
             if ((typeMask & objType) == 0) continue;
 
-            var activeListCopy = new List<PoolMember>(kvp.Value);
+            List<PoolMember> activeListCopy = new List<PoolMember>(kvp.Value);
 
             foreach (PoolMember member in activeListCopy)
             {

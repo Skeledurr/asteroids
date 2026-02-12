@@ -1,6 +1,10 @@
-using System;
 using UnityEngine;
 
+/// <summary>
+/// Wrap Position uses <see cref="GameBounds"/> to determine if
+/// this MonoBehaviour needs to wrap their position to the other
+/// side of the screen when exceeding the bounds.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class WrapPosition : MonoBehaviour
 {

@@ -1,6 +1,10 @@
-using System;
 using UnityEngine;
 
+/// <summary>
+/// A simple class that will automatically return the Pool Member
+/// to the Object Pool after a duration.
+/// This is mainly used by VFXs
+/// </summary>
 public class ReturnToPoolTimer : MonoBehaviour
 {
     [SerializeField] private float _duration;

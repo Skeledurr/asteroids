@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// Bullet is the Player's projectile.
+/// This class handles setting up and handling collision events
+/// for the bullet.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(WrapPosition))]
 public class Bullet : PoolMember

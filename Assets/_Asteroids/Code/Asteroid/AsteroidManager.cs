@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Asteroid Manager handles the spawning and destroying of Asteroids
+/// during a game. 
+/// </summary>
 public class AsteroidManager : MonoBehaviour
 {
     [SerializeField] private AsteroidAtlas _atlas;

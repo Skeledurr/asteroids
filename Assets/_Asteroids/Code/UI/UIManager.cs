@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// UI Manager is a simple class that handles transitioning from
+/// one UI to another by toggling off and on game object containers.
+/// </summary>
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _startGameObj;

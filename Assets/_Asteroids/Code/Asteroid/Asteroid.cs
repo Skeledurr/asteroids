@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Asteroid class handles setting up and events for
+/// the instance of the asteroid game object in game.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(WrapPosition))]
 public class Asteroid : PoolMember
@@ -43,7 +47,14 @@ public class Asteroid : PoolMember
     {
         // Direction.
         float speed = (_configData.BaseSpeed * _baseSpeedMultiplier) + Random.Range(0f, _configData.SpeedRngRange);
-        Vector2 dir = Random.insideUnitCircle.normalized;
+        
+        // This approach sees asteroids flying out of bounds straight away.
+        //Vector2 dir = Random.insideUnitCircle.normalized;
+        
+        Vector2 dir = (Vector2.zero - (Vector2)transform.position).normalized;
+        dir += Random.insideUnitCircle * 0.3f;
+        dir.Normalize();
+        
         _rigidbody.linearVelocity = dir * speed;
         
         // Spin

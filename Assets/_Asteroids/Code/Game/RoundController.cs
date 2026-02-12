@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+/// <summary>
+/// Round Controller handles the game flow during rounds.
+/// Coordinating key components and timings during the start
+/// and end of the round.
+/// </summary>
 public class RoundController : MonoBehaviour
 {
     private GameSession Session => GameController.GameSession;
-    
     
     [SerializeField] private Player _player;
     [SerializeField] private AsteroidManager _asteroidManager;
@@ -17,6 +20,8 @@ public class RoundController : MonoBehaviour
     private GameConfig _config;
     private Coroutine _roundRoutine;
 
+    #region Public Methods
+    
     public void Initialise(GameController gameController, GameConfig config)
     {
         _config = config;
@@ -38,19 +43,20 @@ public class RoundController : MonoBehaviour
         }
         _roundRoutine = StartCoroutine(RoundFlow());
     }
+    
+    #endregion
+    
+
+    #region Private Methods
 
     private IEnumerator RoundFlow()
     {
-        _player.PrepareRoundStart();
-        _asteroidManager.PrepareRoundStart();
+        PrepareRound();
         
         yield return new WaitForSeconds(_startDelay);
-        
-        _player.StartRound();
-        
-        RoundSettings settings = _config.GetRoundSettings(Session.Round);
-        _asteroidManager.StartRound(settings);
 
+        RoundStart();
+        
         // Wait for round to complete
         while (!Session.IsRoundOver && 
                !Session.IsGameOver)
@@ -63,7 +69,26 @@ public class RoundController : MonoBehaviour
 
         // Set round to null before we call game controller.
         _roundRoutine = null;
+
+        RoundComplete();
+    }
+
+    private void PrepareRound()
+    {
+        _player.PrepareRoundStart();
+        _asteroidManager.PrepareRoundStart();
+    }
+
+    private void RoundStart()
+    {
+        _player.StartRound();
         
+        RoundSettings settings = _config.GetRoundSettings(Session.Round);
+        _asteroidManager.StartRound(settings);
+    }
+
+    private void RoundComplete()
+    {
         Session.RoundComplete();
         
         if (Session.IsGameOver)
@@ -80,4 +105,6 @@ public class RoundController : MonoBehaviour
             _gameController.RoundComplete();
         }
     }
+
+    #endregion
 }

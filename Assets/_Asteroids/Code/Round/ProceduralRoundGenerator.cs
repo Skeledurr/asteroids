@@ -1,6 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Procedural Round Generator handles generating additional rounds
+/// after all the Manually created rounds have been completed.
+///
+/// By determining a Max Round and calculating a percentage with the current round.
+/// The percent value will be passed into Animation Curves to determine values that
+/// alter what is spawned and how difficult the round is.
+/// </summary>
 [System.Serializable]
 public class ProceduralRoundGenerator
 {

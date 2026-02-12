@@ -1,3 +1,10 @@
+/// <summary>
+/// Pool Member Type is used mainly for identifying
+/// Pool Members when returning and when determining what pool to use.
+///
+/// Flags are used here mainly to make returning objects of types easier.
+/// <see cref="ObjectPool.ReturnAllOfType"/>
+/// </summary>
 [System.Flags]
 public enum PoolMemberType
 {

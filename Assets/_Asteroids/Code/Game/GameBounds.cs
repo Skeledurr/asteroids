@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// Game Bounds determines the edges of the screen based on the orthographic camera.
+/// There are additional helper methods that assist in determining if game objects
+/// are in bounds or spawning objects on the bounds.
+/// </summary>
 public class GameBounds
 {
     public GameBounds()

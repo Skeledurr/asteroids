@@ -1,6 +1,11 @@
 using System;
-using UnityEngine;
 
+/// <summary>
+/// Round Settings are values that determine how
+/// many asteroids should be spawned and how fast they are.
+///
+/// There is room for adding many more difficulty levers and unique round features.
+/// </summary>
 [System.Serializable]
 public class RoundSettings
 {

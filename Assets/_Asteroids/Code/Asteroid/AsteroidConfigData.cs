@@ -1,3 +1,7 @@
+/// <summary>
+/// Asteroid Config Data is a holder of all the game
+/// settings for different Asteroids.
+/// </summary>
 [System.Serializable]
 public struct AsteroidConfigData
 {
