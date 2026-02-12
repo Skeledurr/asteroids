@@ -26,8 +26,7 @@ public class Asteroid : PoolMember
 
     public void OnBulletHit(Bullet bullet)
     {
-        // TODO determine damage.
-        // TODO start VFX + animations.
+        GameController.ObjectPool.Spawn(_configData.ExplosionType, this.transform.position, Quaternion.identity);
         CreateChildren();
         _manager.OnAsteroidDestroyed(this);
     }

@@ -12,4 +12,6 @@ public struct AsteroidConfigData
 
     public int SplitCount;
     public AsteroidType SplitAsteroidType;
+    
+    public PoolMemberType ExplosionType;
 }

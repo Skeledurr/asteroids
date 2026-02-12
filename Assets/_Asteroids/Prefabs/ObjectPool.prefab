@@ -57,3 +57,15 @@ MonoBehaviour:
   - Type: 8
     Prefab: {fileID: 8403305202278887838, guid: c2b46a967c7c044afbd3746ede5c28a6, type: 3}
     InitialSize: 10
+  - Type: 64
+    Prefab: {fileID: 2818458853419188304, guid: 4aa297310cbb9401bbcc03495c71c491, type: 3}
+    InitialSize: 5
+  - Type: 16
+    Prefab: {fileID: 226366949250331354, guid: 9c04d72e3d25f441f9a498ad087581a2, type: 3}
+    InitialSize: 1
+  - Type: 32
+    Prefab: {fileID: 3013755455199023947, guid: ad784cec88c0c4552a46e26259d6ac56, type: 3}
+    InitialSize: 5
+  - Type: 128
+    Prefab: {fileID: 6018775040220969109, guid: 6cc24de252be94df8905e26b2e61362c, type: 3}
+    InitialSize: 5

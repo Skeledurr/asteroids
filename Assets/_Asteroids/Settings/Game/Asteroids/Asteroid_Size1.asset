@@ -21,3 +21,4 @@ MonoBehaviour:
     RotationRngRange: 2
     SplitCount: 0
     SplitAsteroidType: 0
+    ExplosionType: 32

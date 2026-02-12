@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     
     private void PlayerDied()
     {
+        GameController.ObjectPool.Spawn(PoolMemberType.Player_Explosion, this.transform.position, Quaternion.identity);
         ReturnAllBullets();
         SetVisualsActive(false);
         SetControlsActive(false);
