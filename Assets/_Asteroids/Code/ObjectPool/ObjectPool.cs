@@ -99,6 +99,7 @@ public class ObjectPool : MonoBehaviour
 
     public void Return(PoolMember poolMember)
     {
+        poolMember.gameObject.transform.position = new Vector3(0, 10000, 0);
         poolMember.gameObject.SetActive(false);
         poolMember.transform.SetParent(this.transform);
 

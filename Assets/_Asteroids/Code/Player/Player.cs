@@ -3,37 +3,56 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private ShipController _shipController;
+    [SerializeField] private GameObject _playerVisualsObj;
+    [SerializeField] private Collider _shipCollider;
 
-    private GameController _gameController;
-
-    private void Awake()
+    public void PrepareRoundStart()
     {
-        // Wait for Game Controller to start player.
+        ReturnAllBullets();
+        _shipController.ResetShip();
+        SetColliderActive(false);
+        SetVisualsActive(true);
+        SetControlsActive(true);
+    }
+
+    public void StartRound()
+    {
+        SetColliderActive(true);
+        SetControlsActive(true);
+        GameController.GameSession.PlayerAlive();
+    }
+    
+    private void PlayerDied()
+    {
+        ReturnAllBullets();
+        SetVisualsActive(false);
         SetControlsActive(false);
+        SetColliderActive(false);
+        GameController.GameSession.PlayerDied();
     }
-
-    public void Initialise(GameController gameController)
-    {
-        _gameController = gameController;
-    }
-
-    public void SetControlsActive(bool active)
+    
+    private void SetControlsActive(bool active)
     {
         _shipController.enabled = active;
-        _shipController.ResetShip();
     }
 
-    public void ResetPlayer()
+    private void SetVisualsActive(bool active)
+    {
+        _playerVisualsObj.SetActive(active);
+    }
+
+    private void SetColliderActive(bool active)
+    {
+        _shipCollider.enabled = active;
+    }
+
+    private void ReturnAllBullets()
     {
         GameController.ObjectPool.ReturnAllOfType(PoolMemberType.Bullet);
-        SetControlsActive(false);
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
-        // TODO Explosion
-        _gameController.OnPlayerDied();
+        PlayerDied();
     }
-    
-    
 }

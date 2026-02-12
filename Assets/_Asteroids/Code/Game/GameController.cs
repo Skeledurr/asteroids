@@ -18,18 +18,17 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameConfig _gameConfig;
     
     [Header("Components")]
-    [SerializeField] private Player _player;
     [SerializeField] private AsteroidManager _asteroidManager;
     [SerializeField] private ObjectPool _objectPool;
+    [SerializeField] private RoundController _roundController;
+    [SerializeField] private UIManager _uiManager;
     
     #endregion
 
     #region Private Fields
 
     private static GameBounds _gameBounds = new ();
-    private static GameSession _gameSession;
-    private PlayerControls _controls;
-    private Coroutine _currentRoutine = null;
+    private static GameSession _gameSession = new();
 
     #endregion
     
@@ -39,109 +38,37 @@ public class GameController : MonoBehaviour
     {
         ObjectPool = _objectPool;
         _gameBounds = new GameBounds(Camera.main, _gameConfig.CameraBoundsOffset);
-        _asteroidManager.Initialise(this, _gameBounds);
-        _gameSession = new GameSession(_gameConfig.StartingRound, _gameConfig.StartingPlayerLives);
-        _player.Initialise(this);
-        _controls = new PlayerControls();
-        _controls.UI.Submit.performed += OnStartNewGame;
-        _controls.UI.Disable();
+        _asteroidManager.Initialise(_gameBounds);
+        _roundController.Initialise(this, _gameConfig);
+        _uiManager.Initialise(this);
     }
 
     private void Start()
     {
-        OnStartNextRound();
-    }
-    
-    #endregion
-
-    #region Game Events
-    
-    private void OnStartNextRound()
-    {
-        if (_currentRoutine != null) return;
-        
-        _currentRoutine = StartCoroutine(StartRoundProcess());
-    }
-
-    public void OnAllAsteroidsDestroyed()
-    {
-        if (_currentRoutine != null) return;
-        
-        _currentRoutine = StartCoroutine(EndRoundProcess());
-    }
-
-    public void OnPlayerDied()
-    {
-        if (_currentRoutine != null) return;
-        
-        _currentRoutine = StartCoroutine(PlayerDeathProcess());
-    }
-    
-    #endregion
-
-    #region Game Routines
-
-    private IEnumerator StartRoundProcess()
-    {
-        _player.gameObject.SetActive(true);
-        _player.ResetPlayer();
-        
-        _asteroidManager.StartRound(_gameConfig.GetRoundSettings(_gameSession.Round));
-
-        yield return new WaitForSeconds(1f);
-        
-        _player.SetControlsActive(true);
-
-        _currentRoutine = null;
-    }
-
-    private IEnumerator EndRoundProcess()
-    {
-        yield return new WaitForSeconds(1f);
-        
-        GameSession.NextRound();
-
-        yield return StartRoundProcess();
-
-        _currentRoutine = null;
-    }
-
-    private IEnumerator PlayerDeathProcess()
-    {
-        _player.ResetPlayer();
-        _player.gameObject.SetActive(false);
-        GameSession.LoseLife();
-        Debug.Log($"Lives Remaining: {_gameSession.PlayerLives}");
-        
-        yield return new WaitForSeconds(1f);
-
-        if (_gameSession.IsGameOver)
-        {
-            Debug.Log("Game Over. Press Enter to Start Again.");
-            
-            _controls.UI.Enable();
-        }
-        else
-        {
-            yield return StartRoundProcess();
-        }
-
-        _currentRoutine = null;
-    }
-
-    private void OnStartNewGame(InputAction.CallbackContext obj)
-    {
-        if (_currentRoutine != null)
-        {
-            return;
-        }
-        
-        _controls.UI.Disable();
-        
-        _gameSession = new GameSession(_gameConfig.StartingRound, _gameConfig.StartingPlayerLives);
-        
-        _currentRoutine = StartCoroutine(StartRoundProcess());
+        _uiManager.SetUIState(UIManager.UIState.StartGame);
     }
 
     #endregion
+
+    #region Public Methods
+
+    public void StartNewGame()
+    {
+        _roundController.StartNewGame();
+        _uiManager.SetUIState(UIManager.UIState.GamePlay);
+    }
+
+    public void RoundComplete()
+    {
+        _roundController.StartRound();
+        _uiManager.SetUIState(UIManager.UIState.GamePlay);
+    }
+
+    public void GameOver()
+    {
+        _uiManager.SetUIState(UIManager.UIState.GameOver);
+    }
+
+    #endregion
+    
 }

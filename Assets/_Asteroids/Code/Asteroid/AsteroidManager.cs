@@ -4,22 +4,22 @@ public class AsteroidManager : MonoBehaviour
 {
     [SerializeField] private AsteroidAtlas _atlas;
     
-    private GameController _gameController;
     private GameBounds _bounds;
     private RoundSettings _curRoundSettings;
-    private uint _asteroidCount = 0;
 
-    public void Initialise(GameController gameController, GameBounds bounds)
+    public void Initialise(GameBounds bounds)
     {
-        _gameController = gameController;
         _bounds = bounds;
+    }
+
+    public void PrepareRoundStart()
+    {
+        ResetAsteroids();
     }
 
     public void StartRound(RoundSettings roundSettings)
     {
         _curRoundSettings = roundSettings;
-        
-        ResetAsteroids();
         
         foreach (RoundSettings.SpawnSetting settings in _curRoundSettings.AsteroidsToSpawn)
         {
@@ -44,29 +44,22 @@ public class AsteroidManager : MonoBehaviour
             position,
             Quaternion.identity);
 
-        asteroid.transform.name = $"{asteroidType} - id; {_asteroidCount}";
+        GameController.GameSession.OnAsteroidSpawned();
+        
+        asteroid.transform.name = $"{asteroidType} - round: {GameController.GameSession.Round}, id; {GameController.GameSession.AsteroidsSpawnedThisRound}";
         asteroid.transform.SetParent(this.transform);
         
         asteroid.Initialise(this, config, _curRoundSettings.BaseSpeedMultiplier);
-        
-        _asteroidCount++;
     }
 
     public void OnAsteroidDestroyed(Asteroid asteroid)
     {
-        GameController.ObjectPool.Return(asteroid);
         GameController.GameSession.OnAsteroidDestroyed(asteroid.PointValue);
-        
-        if (GameController.GameSession.AsteroidsDestroyedThisRound == _asteroidCount)
-        {
-            _gameController.OnAllAsteroidsDestroyed();
-        }
+        GameController.ObjectPool.Return(asteroid);
     }
 
     private void ResetAsteroids()
     {
         GameController.ObjectPool.ReturnAllOfType(PoolMemberType.Asteroid);
-
-        _asteroidCount = 0;
     }
 }
