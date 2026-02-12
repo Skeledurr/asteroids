@@ -40,6 +40,16 @@ public class GameBounds
                position.y < _bottom ||
                position.y > _top;
     }
+    
+    public float DistanceFromEdge(Vector2 position)
+    {
+        float distLeft = position.x - _left;
+        float distRight = _right - position.x;
+        float distBottom = position.y - _bottom;
+        float distTop = _top - position.y;
+
+        return Mathf.Min(distLeft, distRight, distBottom, distTop);
+    }
         
     public bool WrapPosition(Vector2 position, out Vector2 wrappedPosition)
     {

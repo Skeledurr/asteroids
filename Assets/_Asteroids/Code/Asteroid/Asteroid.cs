@@ -53,13 +53,20 @@ public class Asteroid : PoolMember
     {
         // Direction.
         float speed = (_configData.BaseSpeed * _baseSpeedMultiplier) + Random.Range(0f, _configData.SpeedRngRange);
+
+        Vector2 dir = Vector2.zero;
         
-        // This approach sees asteroids flying out of bounds straight away.
-        //Vector2 dir = Random.insideUnitCircle.normalized;
-        
-        Vector2 dir = (Vector2.zero - (Vector2)transform.position).normalized;
-        dir += Random.insideUnitCircle * 0.3f;
-        dir.Normalize();
+        float distFromEdge = GameController.GameBounds.DistanceFromEdge(transform.position);
+        if (distFromEdge > 3f)
+        {
+            dir = Random.insideUnitCircle.normalized;
+        }
+        else
+        {
+            dir = (Vector2.zero - (Vector2)transform.position).normalized;
+            dir += Random.insideUnitCircle * 0.5f;
+            dir.Normalize();
+        }
         
         _baseVelocity = dir * speed;
         _rigidbody.linearVelocity = _baseVelocity;

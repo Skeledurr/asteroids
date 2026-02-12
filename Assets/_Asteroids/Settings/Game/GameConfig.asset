@@ -120,18 +120,18 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 10
-          inSlope: 30
-          outSlope: 30
+          value: 5
+          inSlope: 10
+          outSlope: 10
           tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 40
-          inSlope: 30
-          outSlope: 30
+          value: 15
+          inSlope: 10
+          outSlope: 10
           tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
@@ -163,4 +163,4 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      _maxRoundsBeforeCapping: 50
+      _maxRoundsBeforeCapping: 30
