@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +26,11 @@ public class Bullet : PoolMember
     {
         _rigidbody.linearVelocity = this.transform.up * _speed;
         _curDuration = _duration;
+    }
+
+    private void OnDisable()
+    {
+        _rigidbody.linearVelocity = Vector3.zero;
     }
 
     private void Update()

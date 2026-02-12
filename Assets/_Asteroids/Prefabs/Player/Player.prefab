@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d399f1aad2b46ff9969352a0a51aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  _playerConfig: {fileID: 0}
   _shipController: {fileID: 6835822397854231316}
   _playerVisualsObj: {fileID: 4161025800590091342}
   _shipCollider: {fileID: 7608203850835306117}
@@ -65,9 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5533821b43fd4c8984ae6286827aad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipController
-  _thrustPower: 10
-  _turnSpeed: 180
-  _bulletPrefab: {fileID: 9108043987583587211, guid: d3ea7fbdb8be04b7097ffa0bfaacf2ea, type: 3}
+  _playerConfig: {fileID: 11400000, guid: fc2295b7528f6454fa0f2bfb8a287859, type: 2}
   _firePoint: {fileID: 4490205104570109803}
 --- !u!114 &676517633806755855
 MonoBehaviour:

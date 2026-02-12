@@ -16,7 +16,7 @@ MonoBehaviour:
     AsteroidType: 1
     PoolMemberType: 4
     PointValue: 5
-    BaseSpeed: 1.5
+    BaseSpeed: 2.5
     SpeedRngRange: 0.5
     RotationRngRange: 1.5
     SplitCount: 2

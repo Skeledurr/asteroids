@@ -14,10 +14,16 @@ public class Asteroid : PoolMember
     private Rigidbody _rigidbody;
     private AsteroidManager _manager;
     private float _baseSpeedMultiplier = 1f;
+    private Vector3 _baseVelocity;
 
     private void Awake()
     {
         _rigidbody = this.GetComponent<Rigidbody>();
+    }
+    
+    private void FixedUpdate()
+    {
+        _rigidbody.linearVelocity = _baseVelocity * GameController.GameTime.AsteroidTimeScale;
     }
 
     public void Initialise(AsteroidManager manager, AsteroidConfigData config, float baseSpeedMultiplier)
@@ -55,7 +61,8 @@ public class Asteroid : PoolMember
         dir += Random.insideUnitCircle * 0.3f;
         dir.Normalize();
         
-        _rigidbody.linearVelocity = dir * speed;
+        _baseVelocity = dir * speed;
+        _rigidbody.linearVelocity = _baseVelocity;
         
         // Spin
         _rigidbody.angularVelocity = new Vector3(Random.Range(-_configData.RotationRngRange, _configData.RotationRngRange),

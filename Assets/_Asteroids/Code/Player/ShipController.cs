@@ -7,12 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(WrapPosition))]
 public class ShipController : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] private float _thrustPower = 10f;
-    [SerializeField] private float _turnSpeed = 180f;
-
-    [Header("Combat")]
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private PlayerConfig _playerConfig;
     [SerializeField] private Transform _firePoint;
     
     private Rigidbody _rigidbody;
@@ -52,6 +47,7 @@ public class ShipController : MonoBehaviour
         _rigidbody.linearVelocity = Vector3.zero;
         _rigidbody.position = Vector3.zero;
         _rigidbody.rotation = Quaternion.identity;
+        StopSlowMotion();
     }
     
     #endregion
@@ -68,19 +64,32 @@ public class ShipController : MonoBehaviour
         _controls.Player.Move.canceled += cont => _moveInput = Vector2.zero;
 
         _controls.Player.Attack.performed += cont => Shoot();
+
+        _controls.Player.Interact.performed += cont => StartSlowMotion();
+        _controls.Player.Interact.canceled += cont => StopSlowMotion();
     }
 
     private void MoveUpdate()
     {
         float turn = _moveInput.x;
-        _rigidbody.MoveRotation(_rigidbody.rotation * Quaternion.Euler(0f, 0f, -turn * _turnSpeed * Time.fixedDeltaTime));
+        _rigidbody.MoveRotation(_rigidbody.rotation * Quaternion.Euler(0f, 0f, -turn * _playerConfig.ShipTurnSpeed * Time.fixedDeltaTime));
 
-        _rigidbody.linearVelocity += transform.up * (_moveInput.y * _thrustPower * Time.fixedDeltaTime);
+        _rigidbody.linearVelocity += transform.up * (_moveInput.y * _playerConfig.ShipThrustPower * Time.fixedDeltaTime);
     }
 
     private void Shoot()
     {
-        GameController.ObjectPool.Spawn(PoolMemberType.Bullet, _firePoint.position, _firePoint.rotation);
+        GameController.ObjectPool.Spawn(_playerConfig.BulletType, _firePoint.position, _firePoint.rotation);
+    }
+
+    private void StartSlowMotion()
+    {
+        GameController.SlowMotion.StartSlowMotion();
+    }
+
+    private void StopSlowMotion()
+    {
+        GameController.SlowMotion.EndSlowMotion();
     }
 
     #endregion

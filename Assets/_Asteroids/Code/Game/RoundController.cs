@@ -46,7 +46,6 @@ public class RoundController : MonoBehaviour
     
     #endregion
     
-
     #region Private Methods
 
     private IEnumerator RoundFlow()
@@ -77,6 +76,7 @@ public class RoundController : MonoBehaviour
     {
         _player.PrepareRoundStart();
         _asteroidManager.PrepareRoundStart();
+        GameController.SlowMotion.PrepareRoundStart();
     }
 
     private void RoundStart()
@@ -90,6 +90,7 @@ public class RoundController : MonoBehaviour
     private void RoundComplete()
     {
         Session.RoundComplete();
+        GameController.SlowMotion.RoundComplete();
         
         if (Session.IsGameOver)
         {

@@ -12,7 +12,9 @@ public class GameController : MonoBehaviour
     public static GameBounds GameBounds => _gameBounds;
     public static ObjectPool ObjectPool { get; private set; }
     public static GameSession GameSession => _gameSession;
-
+    public static SlowMotion SlowMotion { get; private set; }
+    public static GameTime GameTime => _gameTime;
+    
     #endregion
     
     #region Serialized Fields
@@ -25,6 +27,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private ObjectPool _objectPool;
     [SerializeField] private RoundController _roundController;
     [SerializeField] private UIManager _uiManager;
+    [SerializeField] private SlowMotion _slowMotion;
     
     #endregion
 
@@ -32,6 +35,7 @@ public class GameController : MonoBehaviour
 
     private static GameBounds _gameBounds = new ();
     private static GameSession _gameSession = new();
+    private static GameTime _gameTime = new();
 
     #endregion
     
@@ -40,6 +44,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         ObjectPool = _objectPool;
+        SlowMotion = _slowMotion;
         _gameBounds = new GameBounds(Camera.main, _gameConfig.CameraBoundsOffset);
         _asteroidManager.Initialise(_gameBounds);
         _roundController.Initialise(this, _gameConfig);
