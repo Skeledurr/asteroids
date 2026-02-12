@@ -24,10 +24,13 @@ public class ReturnToPoolTimer : MonoBehaviour
 
     private void Update()
     {
-        _curTimer -= Time.deltaTime;
-        if (_curTimer < 0)
+        if (_curTimer > 0f)
         {
-            _poolMember.ReturnToPool();
+            _curTimer -= Time.deltaTime;
+            if (_curTimer <= 0f)
+            {
+                _poolMember.ReturnToPool();
+            }
         }
     }
 }

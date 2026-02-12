@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8035378615755250912}
   - component: {fileID: 646276679760899894}
+  - component: {fileID: 6464130711484050655}
   - component: {fileID: 2833050731687437685}
   - component: {fileID: 5181509058631095432}
   - component: {fileID: 3168134942976047296}
@@ -50,6 +51,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   _speed: 15
+  _duration: 1
+--- !u!114 &6464130711484050655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9108043987583587211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00c1db8a62ebc4ae288d58ac571eab67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReturnToPoolTimer
   _duration: 1
 --- !u!114 &2833050731687437685
 MonoBehaviour:

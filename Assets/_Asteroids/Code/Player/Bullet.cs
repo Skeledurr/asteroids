@@ -12,10 +12,8 @@ public class Bullet : PoolMember
 {
     [Header("Values")]
     [SerializeField] private float _speed = 15f;
-    [SerializeField] private float _duration = 1f;
     
     private Rigidbody _rigidbody;
-    private float _curDuration;
 
     private void Awake()
     {
@@ -25,27 +23,11 @@ public class Bullet : PoolMember
     private void OnEnable()
     {
         _rigidbody.linearVelocity = this.transform.up * _speed;
-        _curDuration = _duration;
     }
 
     private void OnDisable()
     {
         _rigidbody.linearVelocity = Vector3.zero;
-    }
-
-    private void Update()
-    {
-        DurationUpdate();
-    }
-
-    private void DurationUpdate()
-    {
-        _curDuration -= Time.deltaTime;
-
-        if (_curDuration <= 0)
-        {
-            DestroyBullet();
-        }
     }
 
     private void DestroyBullet()
